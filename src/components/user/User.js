@@ -1,19 +1,18 @@
 import React, { useEffect } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Spinner from './Spinner';
 import Repos from '../repo/Repos';
 
 const User = ({ fetchUserAndRepos, user, repos, loading }) => {
   const params = useParams();
-  const routeLocation = useLocation();
 
   useEffect(() => {
     const doIt = async () => {
       await fetchUserAndRepos(params?.userId);
     };
     doIt();
-  }, [routeLocation]);
+  }, [fetchUserAndRepos, params]);
 
   //prettier-ignore
   const {
@@ -98,39 +97,4 @@ User.propTypes = {
   user: PropTypes.object.isRequired,
   repos: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
-};
-
-const dummyRequest = {
-  login: 'bradtraversy',
-  id: 5550850,
-  node_id: 'MDQ6VXNlcjU1NTA4NTA=',
-  avatar_url: 'https://avatars.githubusercontent.com/u/5550850?v=4',
-  gravatar_id: '',
-  url: 'https://api.github.com/users/bradtraversy',
-  html_url: 'https://github.com/bradtraversy',
-  followers_url: 'https://api.github.com/users/bradtraversy/followers',
-  following_url: 'https://api.github.com/users/bradtraversy/following{/other_user}',
-  gists_url: 'https://api.github.com/users/bradtraversy/gists{/gist_id}',
-  starred_url: 'https://api.github.com/users/bradtraversy/starred{/owner}{/repo}',
-  subscriptions_url: 'https://api.github.com/users/bradtraversy/subscriptions',
-  organizations_url: 'https://api.github.com/users/bradtraversy/orgs',
-  repos_url: 'https://api.github.com/users/bradtraversy/repos',
-  events_url: 'https://api.github.com/users/bradtraversy/events{/privacy}',
-  received_events_url: 'https://api.github.com/users/bradtraversy/received_events',
-  type: 'User',
-  site_admin: false,
-  name: 'Brad Traversy',
-  company: 'Traversy Media',
-  blog: 'traversymedia.com',
-  location: 'Massachusetts',
-  email: null,
-  hireable: true,
-  bio: 'Full stack web developer and online instructor, specializiing in mostly JS, but also write Python, PHP and some other stuff.',
-  twitter_username: 'traversymedia',
-  public_repos: 239,
-  public_gists: 40,
-  followers: 49235,
-  following: 6,
-  created_at: '2013-09-26T15:36:02Z',
-  updated_at: '2022-02-10T19:15:35Z',
 };
