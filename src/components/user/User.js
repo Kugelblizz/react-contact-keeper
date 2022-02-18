@@ -1,30 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import Spinner from './Spinner';
 import Repos from '../repo/Repos';
+import GithubContext from '../context/github/githubContext';
 
-const User = ({ fetchUserAndRepos, user, repos, loading }) => {
+const User = ({}) => {
   const params = useParams();
+  const githubContext = useContext(GithubContext);
 
   useEffect(() => {
     const doIt = async () => {
-      await fetchUserAndRepos(params?.userId);
+      await githubContext.fetchUserAndRepos(params?.userId);
     };
     doIt();
-  }, [fetchUserAndRepos, params]);
+    // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   //prettier-ignore
   const {
     name, avatar_url, location, bio, blog, login, html_url,
     followers, following, public_repos, public_gists, hireable,
     company
-  } = user;
+  } = githubContext.user;
 
   return (
     <>
-      {loading && <Spinner />}
-      {!loading && (
+      {githubContext.loading && <Spinner />}
+      {!githubContext.loading && (
         <>
           <Link to="/" className="btn btn-light">
             Back to Search
@@ -83,7 +85,7 @@ const User = ({ fetchUserAndRepos, user, repos, loading }) => {
             <div className="badge badge-light">Public Repos: {public_repos}</div>
             <div className="badge badge-dark">Public Gists: {public_gists}</div>
           </div>
-          <Repos repos={repos}></Repos>
+          <Repos repos={githubContext.repos}></Repos>
         </>
       )}
     </>
@@ -91,10 +93,3 @@ const User = ({ fetchUserAndRepos, user, repos, loading }) => {
 };
 
 export default User;
-
-User.propTypes = {
-  fetchUserAndRepos: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  repos: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
-};
