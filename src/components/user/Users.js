@@ -3,17 +3,17 @@ import Spinner from './Spinner';
 import GithubContext from '../context/github/githubContext';
 import { useContext, useEffect } from 'react';
 const Users = () => {
-  const githubContext = useContext(GithubContext);
+  const { loading, users, fetchUsers } = useContext(GithubContext);
 
   useEffect(() => {
-    githubContext.fetchUsers();
+    fetchUsers();
   }, []);
 
   return (
     <>
-      {githubContext.loading && <Spinner />}
+      {loading && <Spinner />}
       <div style={userStyle}>
-        {githubContext.users.map((user) => (
+        {users.map((user) => (
           <UserItem key={user.id} user={user}></UserItem>
         ))}
       </div>

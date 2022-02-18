@@ -1,20 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+import AlertContext from '../context/alert/alertContext';
 
-const Alert = ({ alert, onClose }) => {
+const Alert = () => {
+  const { alert, removeAlert } = useContext(AlertContext);
+
   return (
     alert && (
       <div className={`alert alert-${alert.type}`}>
         <i className="fas fa-info-circle"></i> {alert.text}
-        <i className="fas fa-close" style={{ float: 'right', cursor: 'pointer' }} onClick={onClose}></i>
+        <i className="fas fa-close" style={{ float: 'right', cursor: 'pointer' }} onClick={removeAlert}></i>
       </div>
     )
   );
-};
-
-Alert.propTypes = {
-  alert: PropTypes.object,
-  onClose: PropTypes.func.isRequired,
 };
 
 export default Alert;

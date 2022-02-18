@@ -6,11 +6,11 @@ import GithubContext from '../context/github/githubContext';
 
 const User = ({}) => {
   const params = useParams();
-  const githubContext = useContext(GithubContext);
+  const {user, repos, loading, fetchUserAndRepos} = useContext(GithubContext);
 
   useEffect(() => {
     const doIt = async () => {
-      await githubContext.fetchUserAndRepos(params?.userId);
+      await fetchUserAndRepos(params?.userId);
     };
     doIt();
     // eslint-disable-line react-hooks/exhaustive-deps
@@ -21,12 +21,12 @@ const User = ({}) => {
     name, avatar_url, location, bio, blog, login, html_url,
     followers, following, public_repos, public_gists, hireable,
     company
-  } = githubContext.user;
+  } = user;
 
   return (
     <>
-      {githubContext.loading && <Spinner />}
-      {!githubContext.loading && (
+      {loading && <Spinner />}
+      {!loading && (
         <>
           <Link to="/" className="btn btn-light">
             Back to Search
@@ -85,7 +85,7 @@ const User = ({}) => {
             <div className="badge badge-light">Public Repos: {public_repos}</div>
             <div className="badge badge-dark">Public Gists: {public_gists}</div>
           </div>
-          <Repos repos={githubContext.repos}></Repos>
+          <Repos repos={repos}></Repos>
         </>
       )}
     </>
