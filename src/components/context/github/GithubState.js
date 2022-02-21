@@ -4,8 +4,11 @@ import GithubContext from './githubContext';
 import { SET_USERS, SEARCH_USERS, SET_LOADING, GET_USER_AND_REPOS } from '../types';
 import GithubReducer from './githubReducer';
 
+const ID = process.env.NODE_ENV !== 'production' ? process.env.REACT_APP_GITHUB_CLIENT_ID : process.env.GITHUB_CLIENT_ID;
+const SECRET = process.env.NODE_ENV !== "production" ? process.env.REACT_APP_GITHUB_CLIENT_SECRET : process.env.GITHUB_CLIENT_SECRET;
+
 const API_URI = `https://api.github.com`;
-const ID_PARAMS = `client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`;
+const ID_PARAMS = `client_id=${ID}&client_secret=${SECRET}`;
 const REPO_SORT_PARAMS = 'per_page=5&sort=created';
 
 const GithubState = (props) => {
